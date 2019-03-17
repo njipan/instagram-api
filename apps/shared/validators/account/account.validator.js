@@ -1,5 +1,5 @@
 const Joi = require('joi');
-const JoiMessages = require('@apps/shared/helpers/joi-messages');
+const JoiMessages = require('../../../shared/helpers/joi-messages');
 
 const schema = Joi.object().keys({
     username: Joi.string().min(3).max(20).required(),

@@ -4,8 +4,8 @@ const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
 const cors = require("cors");
-const { requestOnly } = require('@shared/middlewares/request');
-const { statusResponse } = require('@shared/middlewares/response');
+const { requestOnly } = require('./shared/middlewares/request');
+const { statusResponse } = require('./shared/middlewares/response');
 
 app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));

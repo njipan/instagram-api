@@ -1,4 +1,4 @@
-const { AccountService } = require('@apps/shared/services/account');
+const { AccountService } = require('../../shared/services/account');
 
 class AccountController {
 

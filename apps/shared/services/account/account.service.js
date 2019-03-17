@@ -1,4 +1,4 @@
-const { Account } = require('@apps/shared/models');
+const { Account } = require('../../models');
 class AccountService {
 
     async getAll(data, cb){

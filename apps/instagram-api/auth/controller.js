@@ -1,4 +1,4 @@
-const { User } = require("@apps/shared/models");
+const { User } = require("../../shared/models");
 const jwt = require("jsonwebtoken");
 const {SIGNIN} = require('./validators');
 

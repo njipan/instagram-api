@@ -1,4 +1,4 @@
-const { ProxyService } = require('@apps/shared/services/proxy');
+const { ProxyService } = require('../../shared/services/proxy');
 
 class ProxyController {
     async index(req, res){
