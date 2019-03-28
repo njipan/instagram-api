@@ -1,11 +1,10 @@
 const mongoose = require("mongoose");
-const uri = `mongodb+srv://${process.env.MONGODB_USERNAME}:${process.env.MONGODB_PASSWORD}@${process.env.MONGODB_HOST}/${process.env.MONGODB_DATABASE}?retryWrites=true`;
-// const uri = `mongodb://${process.env.MONGODB_HOST}:${process.env.MONGODB_PORT}/${process.env.MONGODB_DATABASE}`;
+const uri = `mongodb://${process.env.MONGODB_HOST}:${process.env.MONGODB_PORT}/${process.env.MONGODB_DATABASE}`;
 mongoose.connect(uri, {
     useCreateIndex: true,
     useNewUrlParser: true
 }).then(() => {
-    console.log(`Successfully connected to mongodb://${process.env.MONGODB_HOST}:${process.env.MONGODB_PORT}/${process.env.MONGODB_DATABASE}`);
+    console.log(`Successfully connected to ${uri}`);
 },err => {
     console.log(err);
 });

@@ -1,4 +1,5 @@
 module.exports = {
-  LoginAction: require("./login.action"),
-  LikeAction: require("./like.action")
+    proxyAction: require('./proxy.action'),
+    loginAction: require("./login.action"),
+    listenAction: require("./listen.action")
 };

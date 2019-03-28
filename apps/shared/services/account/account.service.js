@@ -57,6 +57,5 @@ class AccountService {
         const account = await Account.findOneAndDelete({_id: id});
         return cb(null, account);
     }
-
 }
 module.exports = new AccountService();

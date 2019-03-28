@@ -5,6 +5,6 @@ const parse = (details) => {
         messages[item.path] = item.message.replace('"','').replace('"','');
     });
     return messages;
-}
+};
 
 module.exports = { parse }

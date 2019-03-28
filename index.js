@@ -1,5 +1,4 @@
 require("dotenv").load();
-
 const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
@@ -14,6 +13,8 @@ app.use(requestOnly());
 app.use(statusResponse());
 app.use("/", require('./routes'));
 
-app.listen(process.env.PORT || 3000, () => {
-  console.log("Started on port 80");
+const server = app.listen(process.env.PORT || 3000, () => {
+    console.log("Started on port " + server.address().port);
 });
+const io = require('socket.io')(server);
+require('./socket')(io);

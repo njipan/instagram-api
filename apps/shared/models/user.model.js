@@ -3,7 +3,6 @@ const bcrypt = require("bcrypt");
 const SALT_WORK_FACTOR = 10;
 
 const UserSchema = mongoose.Schema({
-  _id: mongoose.Types.ObjectId,
   username: { type: String, unique: true },
   email: { type: String, unique: true },
   password: { type: String, select: false }
@@ -11,7 +10,6 @@ const UserSchema = mongoose.Schema({
 
 UserSchema.pre("save", function(next) {
   var user = this;
-  user._id = mongoose.Types.ObjectId();
   // only hash the password if it has been modified (or is new)
   if (!user.isModified("password")) return next();
 
