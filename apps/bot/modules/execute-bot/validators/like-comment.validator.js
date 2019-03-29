@@ -3,6 +3,7 @@ const JoiMessages = require('../../../../shared/helpers/joi-messages');
 
 const schema = Joi.object().keys({
     link: Joi.string().required(),
+    comment_id : Joi.string().required(),
     likes : Joi.number().min(1).positive().required()
 });
 

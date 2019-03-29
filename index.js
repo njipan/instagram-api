@@ -1,3 +1,4 @@
+global.__process_path = __dirname;
 require("dotenv").load();
 const express = require("express");
 const app = express();

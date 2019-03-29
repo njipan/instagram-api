@@ -29,7 +29,8 @@ module.exports = {
                     }
                     const postPayload = post.data.graphql.shortcode_media;
                     await goToLink(nightmare, postPayload);
-                    if(dataToProcess.type === BotUserState.LIKE) await await like(nightmare, postPayload.id);
+                    if(dataToProcess.type === BotUserState.LIKE) await like(nightmare, postPayload.id);
+                    else if(dataToProcess.type === BotUserState.LIKE_COMMENT) await likeComment(nightmare, dataToProcess.comment_id);
 
                     console.log(++i);
                     console.log(dataToProcess);
@@ -67,6 +68,31 @@ const like = (nightmare, postId) => {
                 HistoryService.save({
                     type : HistoryType.LIKE_POST,
                     action : `Post ${postId} liked`
+                });
+                resolve(true);
+            }).catch(() => resolve(false));
+        });
+    });
+};
+
+const likeComment = (nightmare, commentId) => {
+    const link = `${process.env.BASE_URL}/web/comments/like/${commentId}/`;
+    return new Promise(resolve => {
+        nightmare.cookies.get('csrftoken').then(result => {
+            nightmare.evaluate((csrftoken, paramLink, headers) => {
+                console.log(paramLink);
+                fetch(paramLink, {
+                    credentials: 'include',
+                    method: 'post',
+                    headers: Object.assign(headers, {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'X-CSRFToken': csrftoken,
+                    })
+                });
+            }, result.value, link, nightmare.customHeaders).then(() => {
+                HistoryService.save({
+                    type : HistoryType.LIKE_POST,
+                    action : `Comment ${commentId} liked`
                 });
                 resolve(true);
             }).catch(() => resolve(false));

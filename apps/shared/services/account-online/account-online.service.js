@@ -25,7 +25,7 @@ class AccountService {
         }
         return new Promise(async resolve => {
             const accounts = await AccountOnline.find({
-                state : { $ne : BotUserState.DISCONNECTED }
+                state : BotUserState.LOGGED_IN
             }).populate({
                 path: 'account',
                 match : condition
@@ -41,11 +41,13 @@ class AccountService {
                 resolve({ status: 'error', message : `${data.likes} is can't be done` });
             }
             const usernames = accounts.map(items => items.account.username);
-            socketClient.emit(SocketType.BOT_EXECUTE, {
-                usernames ,
+            const response = {
+                usernames,
                 link : data.link,
                 type : data.type
-            });
+            };
+            if(response.type === BotUserState.LIKE_COMMENT) response.comment_id = data.comment_id || null;
+            socketClient.emit(SocketType.BOT_EXECUTE, response);
             resolve({ status: 'success', message : `Executing ..` });
         });
     }
