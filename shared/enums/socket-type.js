@@ -6,4 +6,5 @@ module.exports = {
     BOT_LIST_USER : 'bot list user',
     BOT_ACTION : 'bot action',
     BOT_EXECUTE : 'bot execute',
+    HISTORY_SAVE : 'history save'
 };

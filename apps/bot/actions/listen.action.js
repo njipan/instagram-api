@@ -2,7 +2,6 @@ const random = require('random');
 const { socketClient } = require('../shared/socket-client');
 const { SocketType, BotUserState } = require('../../../shared/enums');
 const { Post } = require('../api');
-const { HistoryService } = require('../../shared/services/history');
 const { HistoryType } = require('../../../shared/enums');
 const delay = require('../../shared/helpers/delay');
 let isProcessing = false;
@@ -21,7 +20,7 @@ module.exports = {
                     const dataToProcess = actions.shift();
                     const post = await Post.getPostByUrl(dataToProcess.link);
                     if(typeof post.data.graphql.shortcode_media == 'undefined'){
-                        HistoryService.save({
+                        socketClient.emit(SocketType.HISTORY_SAVE, {
                             type : HistoryType.VISITED_POST,
                             action : `${dataToProcess.link} not found`
                         });
@@ -31,9 +30,6 @@ module.exports = {
                     await goToLink(nightmare, postPayload);
                     if(dataToProcess.type === BotUserState.LIKE) await like(nightmare, postPayload.id);
                     else if(dataToProcess.type === BotUserState.LIKE_COMMENT) await likeComment(nightmare, dataToProcess.comment_id);
-
-                    console.log(++i);
-                    console.log(dataToProcess);
                 }
                 isProcessing = false;
             });
@@ -65,7 +61,7 @@ const like = (nightmare, postId) => {
                     })
                 });
             }, result.value, link, nightmare.customHeaders).then(() => {
-                HistoryService.save({
+                socketClient.emit(SocketType.HISTORY_SAVE, {
                     type : HistoryType.LIKE_POST,
                     action : `Post ${postId} liked`
                 });
@@ -90,7 +86,7 @@ const likeComment = (nightmare, commentId) => {
                     })
                 });
             }, result.value, link, nightmare.customHeaders).then(() => {
-                HistoryService.save({
+                socketClient.emit(SocketType.HISTORY_SAVE, {
                     type : HistoryType.LIKE_POST,
                     action : `Comment ${commentId} liked`
                 });

@@ -20,7 +20,9 @@ const proxy_password = args[4];
 const Nightmare = require('../shared/nightmare');
 const config = require('../configs');
 if(typeof proxy_server != 'undefined'){
-    config.switches = { 'proxy-server': proxy_server };
+    console.log(`USING PROXY ${proxy_server}`);
+    config.nightmare.switches = { 'proxy-server': proxy_server };
+    console.log(config);
 }
 let nightmare = Nightmare(config.nightmare);
 nightmare.customHeaders = {};

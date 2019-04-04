@@ -1,10 +1,11 @@
 const mongoose = require("mongoose");
-const uri = `mongodb://${process.env.MONGODB_HOST}:${process.env.MONGODB_PORT}/${process.env.MONGODB_DATABASE}`;
+const env = process.env;
+const uri = `mongodb+srv://${env.MONGODB_USERNAME}:${env.MONGODB_password}@${env.MONGODB_HOST}/${env.MONGODB_DATABASE}`;
 mongoose.connect(uri, {
     useCreateIndex: true,
     useNewUrlParser: true
 }).then(() => {
-    console.log(`Successfully connected to ${uri}`);
+    console.log(`Successfully connected to ${env.MONGODB_HOST}`);
 },err => {
     console.log(err);
 });
@@ -23,11 +24,11 @@ const paginate = (schema, options) => {
             .sort(opts.sort);
         const total = await this.countDocuments({});
         return {
-            items : result,
+            result : result,
             lastPage: Math.ceil(total/opts.perPage)
         };
     }
-}
+};
 
 mongoose.plugin(paginate);
 

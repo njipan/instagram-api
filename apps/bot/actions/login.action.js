@@ -1,6 +1,5 @@
 const { socketClient } = require('../shared/socket-client');
 const { SocketType, BotUserState } = require('../../../shared/enums');
-const { HistoryService } = require('../../shared/services/history');
 const { HistoryType } = require('../../../shared/enums');
 module.exports = {
   process: (nightmare, account)=> {
@@ -23,10 +22,11 @@ module.exports = {
                           state :  BotUserState.LOGGED_IN,
                           updated_at : new Date()
                       });
+                      console.log('STATE : ', BotUserState.LOGGED_IN);
                       resolve(nightmare);
                   }
                   else {
-                      HistoryService.save({
+                      socketClient.emit(SocketType.HISTORY_SAVE, {
                           type : HistoryType.LOGGED_IN,
                           action : `${account.username} can't logged in`
                       });
@@ -35,6 +35,8 @@ module.exports = {
                           state :  BotUserState.FAILED_LOGGED_IN,
                           updated_at : new Date()
                       });
+                      console.log('STATE : ', BotUserState.FAILED_LOGGED_IN);
+                      setTimeout(() => process.exit(0), 10000);
                       resolve(null);
                   }
                   return false;

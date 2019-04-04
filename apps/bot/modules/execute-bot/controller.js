@@ -1,4 +1,5 @@
 const { AccountOnlineService } = require('../../../shared/services/account-online');
+const { BotService } = require('../../../shared/services/bot');
 const { BotUserState } = require('../../../../shared/enums');
 class BotController {
     async like(req, res){
@@ -18,8 +19,13 @@ class BotController {
     }
 
     async login(req, res){
-        const data = req.only(['account', 'proxy']);
-        return res.jsonSuccess(data);
+        const data = req.only(['accounts', 'proxy']);
+        return BotService.login(data, (data, err) => {
+            if(err){
+                return res.jsonError({ message : data });
+            }
+            return res.jsonSuccess({ messages : data});
+        });
     }
 }
 module.exports = new BotController();
