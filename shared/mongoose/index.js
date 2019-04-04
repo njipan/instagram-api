@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const env = process.env;
-const uri = `mongodb+srv://${env.MONGODB_USERNAME}:${env.MONGODB_password}@${env.MONGODB_HOST}/${env.MONGODB_DATABASE}`;
+const uri = `mongodb+srv://${env.MONGODB_USERNAME}:${env.MONGODB_PASSWORD}@${env.MONGODB_HOST}/${env.MONGODB_DATABASE}`;
 mongoose.connect(uri, {
     useCreateIndex: true,
     useNewUrlParser: true
